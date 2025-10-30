@@ -89,9 +89,9 @@ public class NDSSoundRegister
 
 public enum LFOTarget : byte
 {
+	Pitch,
 	Volume,
-	Pan,
-	Pitch
+	Pan
 }
 
 public class LFOParam
