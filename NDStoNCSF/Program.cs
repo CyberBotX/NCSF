@@ -692,11 +692,16 @@ class Program
 						fileTags[i] = thisTags;
 					}
 				}
-				double gain = albumGain.GetGain();
-				string gainStr = $"{(gain < 0 ? "" : "+")}{gain:F2} dB";
-				string peakStr = $"{albumGain.GetPeak():F9}";
-				if (verbosity != 0)
-					Console.WriteLine($"Album ReplayGain: {gainStr} / {peakStr} peak");
+				string gainStr = "";
+				string peakStr = "";
+				if (args.OptReplayGain)
+				{
+					double gain = albumGain.GetGain();
+					gainStr = $"{(gain < 0 ? "" : "+")}{gain:F2} dB";
+					peakStr = $"{albumGain.GetPeak():F9}";
+					if (verbosity != 0)
+						Console.WriteLine($"Album ReplayGain: {gainStr} / {peakStr} peak");
+				}
 				for (uint i = 0, count = (uint)seqEntries.Length; i < count; ++i)
 				{
 					var (Offset, Entry) = seqEntries[(int)i];
@@ -710,8 +715,11 @@ class Program
 							minincsfFilename = filename;
 
 						var thisTags = fileTags[i];
-						thisTags.AddOrReplace(("replaygain_album_gain", gainStr));
-						thisTags.AddOrReplace(("replaygain_album_peak", peakStr));
+						if (args.OptReplayGain)
+						{
+							thisTags.AddOrReplace(("replaygain_album_gain", gainStr));
+							thisTags.AddOrReplace(("replaygain_album_peak", peakStr));
+						}
 
 						NCSFCommon.NCSF.MakeNCSF(Path.Combine(dirName, minincsfFilename), BitConverter.GetBytes(i), [], thisTags);
 						if (verbosity != 0)
