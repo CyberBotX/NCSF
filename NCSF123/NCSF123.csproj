@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="docopt.net" Version="0.8.1" />
-    <PackageReference Include="DotNext.Unsafe" Version="5.24.0" />
+    <PackageReference Include="DotNext.Unsafe" Version="5.26.0" />
     <PackageReference Include="EnumUtilitiesGenerator" Version="0.1.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
