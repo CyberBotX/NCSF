@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>2.0.0</Version>
+    <Authors>Naram "CyberBotX" Qashat</Authors>
+    <Description>A library containing the common classes and methods needing for creating NCSF (Nitro Composer Sound Format) files.</Description>
+    <Copyright>© 2013-2023 Naram Qashat</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+    <PackageReference Include="DotNext" Version="5.24.0" />
+    <PackageReference Include="System.IO.Hashing" Version="9.0.8" />
+  </ItemGroup>
+
+</Project>

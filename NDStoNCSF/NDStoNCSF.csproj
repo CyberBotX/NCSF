@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>2.0.0</Version>
+    <Authors>Naram "CyberBotX" Qashat</Authors>
+    <Description>A program to convert Nintendo DS SDAT (sound data) files to NCSF (Nitro Composer Sound Format).</Description>
+    <Copyright>© 2013-2025 Naram Qashat</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="docopt.net" Version="0.8.1" />
+    <PackageReference Include="DotNext.Unsafe" Version="5.24.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NCSFTimer\NCSFTimer.csproj" />
+  </ItemGroup>
+
+</Project>

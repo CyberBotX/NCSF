@@ -1,0 +1,76 @@
+NDS to NCSF
+By Naram Qashat (CyberBotX) [cyberbotx@cyberbotx.com]
+
+NDS to NCSF will take the incoming file and create a series of NCSF files. If
+there is only a single SSEQ within the entire ROM, then there will be a single
+NCSF file. Otherwise, there will be an NCSFLIB and multiple MININCSFs.
+
+Usage:
+  NDStoNCSF.exe (-h | --help)
+  NDStoNCSF.exe (-V | --version)
+  NDStoNCSF.exe -s SMAP INPUT
+  NDStoNCSF.exe [-anrD [-v | -vv] -t TIME -l FADE -o FADE -x EXCLUDE...
+                -i INCLUDE... -S SMAP -d DIRECTORY] INPUT
+
+Options:
+  -h, --help                   Show help message.
+  -V, --version                Show version.
+  -s, --create-smap SMAP       Creates an SMAP-like file that can later be used
+                               with the --use-smap/-S option.
+  -a, --auto                   Fully automatic mode (disables interactive
+                               mode).
+  -n, --nocopy                 Do not check for previous files in the
+                               destination directory.
+  -r, --replay-gain            Calculate ReplayGain for all tracks, treating
+                               them as a single album. Cannot be used if timing
+                               is disabled.
+  -D, --dont-strip             Don't strip the final SDAT.
+  -v, -vv                      Verbosity level.
+  -t, --time TIME              Calculate time on each track to the number of
+                               loops given, 0 will disable timing. [default: 2]
+  -l, --fade-loop FADE         Set the fade time for looping tracks, in
+                               seconds. [default: 10]
+  -o, --fade-one-shot FADE     Set the fade time for one-shot tracks, in
+                               seconds. [default: 1]
+  -x, --exclude EXCLUDE        Exclude the given filename from the final SDAT,
+                               may use * and ? wildcards.
+  -i, --include INCLUDE        Include the given filename in the final SDAT,
+                               may use * and ? wildcards.
+  -S, --use-smap SMAP          Uses the given SMAP-like file to determine what
+                               files to include/exclude.
+  -d, --destination DIRECTORY  Destination directory for the generated files.
+
+A verbosity level of 1 will output the NCSFs created. A verbosity level of 2
+will also output duplicates found during the SDAT stripping step.
+
+Excluded and included files will be processed in the order they are given on
+the command line, later arguments overriding earlier arguments. If there is
+more than 1 SDAT contained within the NDS ROM, you can exclude or include based
+on the SDAT by prefixing the filename with the SDAT number (1-based) and a
+forward slash. For example, if the NDS ROM has 2 SDATs and both contain a file
+called XYZ, but you only want XYZ from the 2nd SDAT, use 1/XYZ as an exclude.
+Wildcards before the forward slash are also accepted.
+
+If --auto or -a are not given, the program will run in interactive mode, asking
+to confirm which sequences to keep. (NOTE: Even in interactive mode, files
+which were excluded or included on the command line will still be automatically
+set as such.)
+
+The --create-smap or -s and --use-smap or -S options are meant to be used in
+tandem. Using --create-smap or -s will generate a specialized SMAP file. Lines
+in this file starting with a '#' symbol are considered comments. Files can be
+excluded by commenting the line out. Once that has been done, the SMAP file can
+be used with --use-smap or -S. The SMAP file is created relative to the output
+directory. NOTE: The short forms of the options are case-sensitive, so -s is not
+the same as -S. Command line exclusions and inclusions, as well as automatic
+mode, are not allowed when these options are used.
+
+If --nocopy or -n are not given, the program will use information from a
+previous run of NDS to NCSF, if any exists. This will set files that were not
+in the previous run's SDAT as being excluded by default and it will also
+attempt to copy tags from the previous files. (NOTE: This may not work if the
+original SDAT did not contain a symbol record, mainly because filename matching
+cannot be done.)
+
+Timing uses code based on the Pokémon Diamond decompilation by pret, as well as
+some minor code from DeSmuME for pseudo-playback.

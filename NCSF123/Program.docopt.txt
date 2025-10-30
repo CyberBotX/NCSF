@@ -1,0 +1,102 @@
+NCSF123
+By Naram Qashat (CyberBotX) [cyberbotx@cyberbotx.com]
+
+NCSF123 is a command-line player for NCSF files. It can play to a device, to
+standard output or write to a .wav file.
+
+Usage:
+  NCSF123.exe (-h | --help)
+  NCSF123.exe (-V | --version)
+  NCSF123.exe play (-d list | -i list)
+  NCSF123.exe play [-F -c CLIP-PROTECT -d DEVICE -f FADE -i INTERPOLATION
+              -l LENGTH [--solo-channel SOLO... | --mute-channel MUTE...]
+              [--solo-track SOLO... | --mute-track MUTE...] -r REPLAY-GAIN
+              -s SAMPLE-RATE -S SKIP-SILENCE (-I | -v VOLUME)] INPUT
+  NCSF123.exe output -i list
+  NCSF123.exe output [-F -c CLIP-PROTECT -f FADE -i INTERPOLATION -l LENGTH
+              [--solo-channel SOLO... | --mute-channel MUTE...] -o OUTPUT
+              [--solo-track SOLO... | --mute-track MUTE...] -r REPLAY-GAIN
+              -s SAMPLE-RATE -S SKIP-SILENCE (-I | -v VOLUME)] INPUT
+
+Arguments:
+  INPUT                The NCSF to be rendered. This must either be a .minincsf
+                       or a .ncsf file. Do not provide a .ncsflib file.
+
+Options:
+  -h, --help           Show help message.
+  -V, --version        Show version.
+  -F, --forever        Ignores any default lengths or existing lengths defined
+                       within the NCSF, and will instead continue to play
+                       forever.
+  -c, --clip-protect CLIP-PROTECT
+                       The type of audio clipping protection to apply. It must
+                       be one of the following: Disabled, Track or Album. It
+                       will only be used if any valid ReplayGain is applied.
+                       [default: Track]
+  -d, --device DEVICE  The DEVICE should be the name of the device to play to.
+                       To get the names of the devices on your system, use
+                       "list" (without the quotes) for the device name. If left
+                       out, the system's default device will be played to.
+  -f, --fade FADE      The default fade length if one is not given in the NCSF.
+                       See below for notes on the format for the time.
+                       [default: 5]
+  -i, --interpolation INTERPOLATION
+                       The name of the interpolation algorithm to use for
+                       smoothing out the audio. Alternatively, you could use the
+                       number for the algorithm. To get the list of algorithms,
+                       use "list" (without the quotes) for the algorithm name.
+                       [default: No Interpolation]
+  -l, --length LENGTH  The default play length if one is not given in the NCSF.
+                       See below for notes on the format for the time.
+                       [default: 1:55]
+  --solo-channel SOLO  Indicates which channel(s) you want to play solo, can be
+                       given multiple times to have multiple channels solo.
+  --mute-channel MUTE  Indicates which channel(s) you want to mute, can be given
+                       multiple times to have multiple channels muted.
+  --solo-track SOLO    Indicates which track(s) you want to play solo, can be
+                       given multiple times to have multiple tracks solo.
+  --mute-track MUTE    Indicates which track(s) you want to mute, can be given
+                       multiple times to have multiple tracks muted.
+  -r, --replay-gain REPLAY-GAIN
+                       The type of ReplayGain to apply to the audio. It must be
+                       one of the following: Disabled, Use Volume Tag, Album or
+                       Peak. If Album or Peak is used but the NCSF does not have
+                       either, then it falls back to Use Volume Tag.
+                       [default: Album]
+  -s, --sample-rate SAMPLE-RATE
+                       The sample rate, in Hz, to output at. [default: 32728]
+  -S, --skip-silence SKIP-SILENCE
+                       The number of seconds of silence at the start of a song
+                       to skip over. Any silence longer than this will be kept.
+                       [default: 5]
+  -I, --ignore-volume  Ignores any volume settings and just renders the audio
+                       as is.
+  -v, --volume VOLUME  The mulitplier to the final volume of the audio.
+                       [default: 1]
+  -o, --output OUTPUT  The OUTPUT should either be a single dash (-) to write
+                       to standard output or a .wav filename to save to.
+                       [default: -]
+
+For channel mutes/solos and track mutes/solos, the given channel or track must
+be a number between 1 and 16.
+
+A key note for the difference between channel and track: channels are for output
+while tracks are the inputs from the sequence. The reason these are not the same
+thing is that the Nintendo DS used a dynamic channel allocation system, which
+would cause the system to assign the output of a track to whichever channel was
+free in a pre-defined order, and as such, this means that track #1 is not
+designated to play on channel #1, as an example.
+
+When using the output command, the data will be 16-bit little-endian PCM if
+writing to a .wav file or it will be raw (without a header) 32-bit
+floating-point PCM if writing to standard output.
+
+The forever flag cannot be used if using the output command to write to a .wav
+file.
+
+For any option that accept a time, the time can be given as just a single
+number, which will be treated as seconds, or as mm:ss (minutes and seconds)
+or as hh:mm:ss (hours, minutes and seconds).
+
+Sound player code based on the Pokémon Diamond decompilation by pret, as well
+as some minor code from DeSmuME.

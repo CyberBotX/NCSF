@@ -1,0 +1,25 @@
+2SF Tags to NCSF
+By Naram Qashat (CyberBotX) [cyberbotx@cyberbotx.com]
+
+2SF Tags to NCSF will copy tags from a 2SF set and place them into the tags of
+an NCSF set.
+
+NOTE: This may only work on 2SFs that were created with Legacy of Ys as the
+driver, any other 2SFs may not work.
+
+Usage:
+  2SFTagsToNCSF.exe (-h | --help)
+  2SFTagsToNCSF.exe (-V | --version)
+  2SFTagsToNCSF.exe [-rv -x EXCLUDE...] INPUTDIR OUTPUTDIR
+
+Options:
+  -h, --help             Show help message.
+  -V, --version          Show version.
+  -r, --rename           Renames the NCSFs to match the 2SFs.
+  -v, --verbose          Verbose output.
+  -x, --exclude EXCLUDE  Exclude the given tag from the tags to copy.
+
+Verbose output will output the tags that were copied.
+
+Regardless of which tags are excluded on the command line, the _lib, 2sfby,
+length and fade tags will always be excluded from the conversion process.

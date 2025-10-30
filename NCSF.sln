@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCSFCommon", "NCSFCommon\NCSFCommon.csproj", "{3C0DD1EF-D08C-4E27-91E7-05450E5A9DCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDStoNCSF", "NDStoNCSF\NDStoNCSF.csproj", "{1ECB2344-3C5D-4E41-BF34-9B499C8F4A26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2SFTagsToNCSF", "2SFTagsToNCSF\2SFTagsToNCSF.csproj", "{FB27F779-3C75-40F4-8C37-7272DFEB1EAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCSFPlayer", "NCSFPlayer\NCSFPlayer.csproj", "{01C8DA86-8F77-41F2-BCE6-43E5AA716B1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCSFTimer", "NCSFTimer\NCSFTimer.csproj", "{DCE63595-9318-4012-A0F7-2657D3D1A3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCSF123", "NCSF123\NCSF123.csproj", "{A3766734-8392-4B1D-A31C-0885D26A9B20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C0DD1EF-D08C-4E27-91E7-05450E5A9DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C0DD1EF-D08C-4E27-91E7-05450E5A9DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C0DD1EF-D08C-4E27-91E7-05450E5A9DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C0DD1EF-D08C-4E27-91E7-05450E5A9DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ECB2344-3C5D-4E41-BF34-9B499C8F4A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ECB2344-3C5D-4E41-BF34-9B499C8F4A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ECB2344-3C5D-4E41-BF34-9B499C8F4A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ECB2344-3C5D-4E41-BF34-9B499C8F4A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB27F779-3C75-40F4-8C37-7272DFEB1EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB27F779-3C75-40F4-8C37-7272DFEB1EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB27F779-3C75-40F4-8C37-7272DFEB1EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB27F779-3C75-40F4-8C37-7272DFEB1EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C8DA86-8F77-41F2-BCE6-43E5AA716B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C8DA86-8F77-41F2-BCE6-43E5AA716B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C8DA86-8F77-41F2-BCE6-43E5AA716B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C8DA86-8F77-41F2-BCE6-43E5AA716B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCE63595-9318-4012-A0F7-2657D3D1A3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCE63595-9318-4012-A0F7-2657D3D1A3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCE63595-9318-4012-A0F7-2657D3D1A3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCE63595-9318-4012-A0F7-2657D3D1A3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3766734-8392-4B1D-A31C-0885D26A9B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3766734-8392-4B1D-A31C-0885D26A9B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3766734-8392-4B1D-A31C-0885D26A9B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3766734-8392-4B1D-A31C-0885D26A9B20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E56ACF5F-DEA0-4F6D-B674-5063EE8C615D}
+	EndGlobalSection
+EndGlobal
