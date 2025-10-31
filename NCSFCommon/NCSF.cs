@@ -147,7 +147,7 @@ public static class NCSF
 		using (var memoryOwner = MemoryOwner<byte>.Allocate((int)programCompressedSize))
 		{
 			Span<byte> initialBytes = stackalloc byte[(int)programHeaderSize];
-			span[(int)(reservedSize + 0x10)..].CopyTo(memoryOwner.Span);
+			span.Slice((int)(reservedSize + 0x10), (int)programCompressedSize).CopyTo(memoryOwner.Span);
 			using (ZLibStream zls = new(memoryOwner.Memory.AsStream(), CompressionMode.Decompress))
 				_ = zls.Read(initialBytes);
 			uint size = BinaryPrimitives.ReadUInt32LittleEndian(initialBytes[(int)programSectionOffset..]) +
