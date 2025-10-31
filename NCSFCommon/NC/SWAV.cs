@@ -188,8 +188,8 @@ public class SWAV : IEquatable<SWAV>, IEqualityOperators<SWAV, SWAV, bool>
 				break;
 			case 1: // PCM signed 16-bit
 				size /= 2;
-				_ = this.data.EnsureCapacity((int)size);
-				this.data.AddRange(this.originalData.Select(static o => (float)o / short.MaxValue));
+				_ = this.data.EnsureCapacity((int)(size / 2));
+				this.data.AddRange(this.originalData.AsSpan().Cast<byte, short>().ToArray().Select(static o => (float)o / short.MaxValue));
 				this.LoopOffset *= 2;
 				this.LoopLength *= 2;
 				break;
