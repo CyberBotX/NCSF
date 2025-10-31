@@ -132,12 +132,12 @@ public class LFO
 			++this.DelayCounter;
 		else
 		{
-			uint tmp = this.DelayCounter;
+			uint tmp = this.Counter;
 			tmp += (uint)(this.Param.Speed << 6);
 			tmp >>= 8;
 			while (tmp >= 0x80)
 				tmp -= 0x80;
-			this.Counter = (ushort)(this.Param.Speed << 6);
+			this.Counter += (ushort)(this.Param.Speed << 6);
 			this.Counter &= 0xFF;
 			this.Counter |= (ushort)(tmp << 8);
 		}
