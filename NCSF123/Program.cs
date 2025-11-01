@@ -300,13 +300,13 @@ public static class Program
 						fs.Write(BitConverter.GetBytes(length + 36));
 						fs.Write("WAVE"u8);
 						fs.Write("fmt "u8);
-						fs.Write(BitConverter.GetBytes(16));
-						fs.Write(BitConverter.GetBytes((short)1));
-						fs.Write(BitConverter.GetBytes((short)2));
+						fs.Write(BitConverter.GetBytes(16)); // Chunk body size
+						fs.Write(BitConverter.GetBytes((short)1)); // Format tag (1 = Integer PCM)
+						fs.Write(BitConverter.GetBytes((short)2)); // Number of channels (2 = Stereo)
 						fs.Write(BitConverter.GetBytes(sampleRate));
-						fs.Write(BitConverter.GetBytes(sampleRate * 4));
-						fs.Write(BitConverter.GetBytes((short)4));
-						fs.Write(BitConverter.GetBytes((short)16));
+						fs.Write(BitConverter.GetBytes(sampleRate * 4)); // Average bytes per sample
+						fs.Write(BitConverter.GetBytes((short)4)); // Block align (basically bytes per sample / 8 then multiplied by channel count)
+						fs.Write(BitConverter.GetBytes((short)16)); // Bits per sample
 						fs.Write("data"u8);
 						fs.Write(BitConverter.GetBytes(length));
 						foreach (float sample in MemoryMarshal.Cast<byte, float>((output as MemoryStream)!.GetBuffer())[..(length / 2)])
