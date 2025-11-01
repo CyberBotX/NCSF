@@ -171,7 +171,7 @@ public class LFO
 	/// Original function: SND_GetLfoValue in SND_exChannel.c of the Pokémon Diamond decompilation.
 	/// </remarks>
 	/// <returns></returns>
-	public int GetValue() => this.Param.Delay == 0 || this.DelayCounter < this.Param.Delay ? 0 :
+	public int GetValue() => this.Param.Depth == 0 || this.DelayCounter < this.Param.Delay ? 0 :
 		LFO.SinIndex((int)((uint)this.Counter >> 8)) * this.Param.Depth * this.Param.Range;
 }
 
