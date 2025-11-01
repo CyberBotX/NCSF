@@ -291,7 +291,7 @@ public abstract class Channel
 		if (this.SyncFlags != 0)
 		{
 			if (this.SyncFlags.HasFlag(ChannelSyncFlag.Stop))
-				// Basically what is done in SND_StopChannel in SND_channel.c of the Pokémon Diamond decompilation. when hold is not set.
+				// Basically what is done in SND_StopChannel in SND_channel.c of the Pokémon Diamond decompilation when hold is not set.
 				this.Register.Enable = false;
 
 			if (this.SyncFlags.HasFlag(ChannelSyncFlag.Start))
@@ -741,7 +741,7 @@ public abstract class Channel
 			return false;
 		else
 		{
-			this.type = ChannelType.PSG;
+			this.type = ChannelType.Noise;
 			// These next two lines are for my code and not from the decompilation.
 			this.Register.SamplePosition = -1;
 			this.Register.PSGX = 0x7FFF;

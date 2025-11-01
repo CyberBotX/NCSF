@@ -125,7 +125,7 @@ public abstract class Player
 
 			byte cmd = trk.ReadU8();
 
-			if (cmd == 0xFE)
+			if (cmd == Track.SSEQCommand.AllocateTrack.ToByte())
 			{
 				int track;
 				ushort trackMask;
@@ -160,6 +160,8 @@ public abstract class Player
 		this.trackIds.AsSpan().Fill(Player.InvalidTrackIndex);
 
 		this.variables.AsSpan().Fill(-1);
+		// Aside from the comment inside this loop, everything from this point on is done for my player specifically
+		// and is not from the Pokémon Diamond decompilation.
 		for (int i = 0; i < Player.TrackCount; ++i)
 		{
 			this.tracks[i].Id = (byte)i;

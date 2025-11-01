@@ -438,7 +438,7 @@ public abstract class Track
 		channel.SweepCounter = 0;
 	}
 
-	protected enum SSEQCommand : byte
+	protected internal enum SSEQCommand : byte
 	{
 		AllocateTrack = 0xFE, // Silently ignored
 		OpenTrack = 0x93,
