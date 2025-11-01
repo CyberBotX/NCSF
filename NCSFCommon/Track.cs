@@ -502,5 +502,9 @@ public abstract class Track
 		Mute = 0xD7 // Unsupported
 	}
 
+	/// <remarks>
+	/// Original function: TrackStepTicks in SND_seq.c of the Pokémon Diamond decompilation.
+	/// </remarks>
+	/// <returns></returns>
 	public abstract bool StepTicks();
 }
