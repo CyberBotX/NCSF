@@ -425,7 +425,7 @@ public abstract class Track
 		if (this.portamentoTime != 0)
 		{
 			int swp = this.portamentoTime * this.portamentoTime;
-			swp *= this.sweepPitch < 0 ? -this.sweepPitch : this.sweepPitch;
+			swp *= channel.SweepPitch < 0 ? -channel.SweepPitch : channel.SweepPitch;
 			swp >>= 11;
 			channel.SweepLength = swp;
 		}
