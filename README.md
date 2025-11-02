@@ -7,7 +7,10 @@ Primary repository on [GitHub](https://github.com/CyberBotX/NCSF).
 NCSF C# Libraries and Utilities by Naram "CyberBotX" Qashat.
 
 This repository is meant to replace the utilities in the [SDATStuff](https://github.com/CyberBotX/SDATStuff) repository. Note that not
-all of the utilities from that repository have been ported this this one.
+all of the utilities from that repository have been ported to this one.
+
+**NOTE:** These libraries and utilties are currerntly a Work In Progress, so there may be bugs. If you do
+encounter one, I'd like to know, so please contact me using one of the methods listed later in this file.
 
 ## What is this?
 
@@ -59,6 +62,9 @@ DS ARM7 BIOS, along with a few other concepts) and more recently the above menti
 The libraries and utilities in this repository are written in .NET, and currently require [.NET 9][.NET]. To build, you will need to have
 the [.NET 9 SDK][.NET] installed. You can either download and use the command-line version, or you can use Visual Studio 2022. If you wish
 to just use the pre-built binaries, you only need to ensure you have the [.NET 9 Runtime][.NET] installed.
+
+**NOTE:** There are currently no pre-built binaries, this will be corrected in the future once the tools
+are no longer a Work In Progress.
 
 The programs are command-line only and do not have a GUI currently. Running them with no arguments should print the syntax for the program,
 and all of them allow for a `-h`/`--help` argument to print out the full help.
