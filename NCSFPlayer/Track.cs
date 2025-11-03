@@ -350,8 +350,8 @@ public class Track : NCSFCommon.Track
 										--this.callStackDepth;
 										break;
 									}
-									this.loopCount[this.callStackDepth] = count;
-									this.CurrentPos = this.positionCallStack[this.callStackDepth];
+									this.loopCount[this.callStackDepth - 1] = count;
+									this.CurrentPos = this.positionCallStack[this.callStackDepth - 1];
 								}
 								break;
 							case SSEQCommand.End:
