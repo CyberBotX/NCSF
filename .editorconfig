@@ -65,16 +65,27 @@ dotnet_style_prefer_inferred_tuple_names = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 dotnet_style_prefer_simplified_boolean_expressions = true:warning
 dotnet_style_prefer_simplified_interpolation = true:warning
-dotnet_style_prefer_collection_expression = true:warning
+dotnet_style_prefer_collection_expression = when_types_loosely_match:warning
+dotnet_diagnostic.IDE0001.severity = warning
+dotnet_diagnostic.IDE0002.severity = none
+dotnet_diagnostic.IDE0004.severity = error
+dotnet_diagnostic.IDE0035.severity = error
+dotnet_diagnostic.IDE0070.severity = warning
+dotnet_diagnostic.IDE0082.severity = warning
+dotnet_diagnostic.IDE0100.severity = warning
+dotnet_diagnostic.IDE0120.severity = warning
+dotnet_diagnostic.IDE0121.severity = warning
 
 # Field preferences
 dotnet_style_readonly_field = true:warning
 
 # Parameter preferences
 dotnet_code_quality_unused_parameters = all:warning
+dotnet_diagnostic.IDE0280.severity = warning
 
 # Suppression preferences
-dotnet_remove_unnecessary_suppression_exclusions = all:warning
+dotnet_remove_unnecessary_suppression_exclusions = all
+dotnet_diagnostic.IDE0079.severity = warning
 
 # New line preferences
 dotnet_style_allow_multiple_blank_lines_experimental = false:warning
@@ -140,9 +151,12 @@ csharp_style_unused_value_assignment_preference = discard_variable:warning
 csharp_style_unused_value_expression_statement_preference = discard_variable:warning
 csharp_style_prefer_implicitly_typed_lambda_expression = true:warning
 csharp_style_prefer_unbound_generic_type_in_nameof = true:warning
+dotnet_diagnostic.IDE0110.severity = warning
+dotnet_diagnostic.IDE0080.severity = error
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:none
+dotnet_diagnostic.IDE0005.severity = warning
 
 # New line preferences
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:none
@@ -150,6 +164,11 @@ csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimenta
 csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:none
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:warning
 csharp_style_allow_embedded_statements_on_same_line_experimental = true:none
+
+# Miscellaneous rules
+dotnet_diagnostic.IDE0076.severity = warning
+dotnet_diagnostic.IDE0077.severity = warning
+dotnet_diagnostic.IDE3000.severity = none
 
 #### C# Formatting Rules ####
 

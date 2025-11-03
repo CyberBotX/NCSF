@@ -9,7 +9,7 @@ public static class SDATExtensions
 	/// <summary>
 	/// Nulls out the unused bank instruments and wave archive waveforms from the <see cref="SDAT" />.
 	/// </summary>
-	public static void NullUnusedInstrumentsAndWaveforms(this NCSFCommon.NC.SDAT sdat)
+	public static void NullUnusedInstrumentsAndWaveforms(this SDAT sdat)
 	{
 		// Get all the unique patches.
 		Dictionary<ushort, HashSet<ushort>> bankPatches = [];

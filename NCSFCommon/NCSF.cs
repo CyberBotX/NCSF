@@ -246,7 +246,7 @@ public static class NCSF
 	/// </summary>
 	/// <remarks>
 	/// The only reason this takes in a <see cref="ReadOnlyMemory{T}" /> instead a <see cref="ReadOnlySpan{T}" />
-	/// is due to <see cref="NCSF.FindOffsetsInFile" />.
+	/// is due to <see cref="FindOffsetsInFile" />.
 	/// </remarks>
 	/// <param name="memory">A <see cref="ReadOnlyMemory{T}"/> to the data to extract the tags from.</param>
 	/// <param name="versionByte">The PSF version byte to check for.</param>
