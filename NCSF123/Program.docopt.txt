@@ -13,10 +13,11 @@ Usage:
               [--solo-track SOLO... | --mute-track MUTE...] -r REPLAY-GAIN
               -s SAMPLE-RATE -S SKIP-SILENCE (-I | -v VOLUME)] INPUT
   NCSF123.exe output -i list
-  NCSF123.exe output [-F -c CLIP-PROTECT -f FADE -i INTERPOLATION -l LENGTH
-              [--solo-channel SOLO... | --mute-channel MUTE...] -o OUTPUT
-              [--solo-track SOLO... | --mute-track MUTE...] -r REPLAY-GAIN
-              -s SAMPLE-RATE -S SKIP-SILENCE (-I | -v VOLUME)] INPUT
+  NCSF123.exe output [-b BITRATE -F -c CLIP-PROTECT -f FADE -i INTERPOLATION
+              -l LENGTH [--solo-channel SOLO... | --mute-channel MUTE...]
+              -o OUTPUT [--solo-track SOLO... | --mute-track MUTE...]
+              -r REPLAY-GAIN -s SAMPLE-RATE -S SKIP-SILENCE (-I | -v VOLUME)]
+              INPUT
 
 Arguments:
   INPUT                The NCSF to be rendered. This must either be a .minincsf
@@ -73,6 +74,13 @@ Options:
                        as is.
   -v, --volume VOLUME  The mulitplier to the final volume of the audio.
                        [default: 1]
+  -b, --bitrate BITRATE
+                       This option will only apply if -o is given with a
+                       filename, it must be either 16 or 32, all other values
+                       will be rejected. 16 will output a .wav file that uses
+                       signed 16-bit integer PCM, while 32 will output a .wav
+                       file that uses 32-bit floating-point PCM.
+                       [default: 16]
   -o, --output OUTPUT  The OUTPUT should either be a single dash (-) to write
                        to standard output or a .wav filename to save to.
                        [default: -]

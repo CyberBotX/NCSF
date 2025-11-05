@@ -269,10 +269,16 @@ public static class Program
 				using NCSFPlayerStream stream = new(args.ArgInput!, (uint)sampleRate, interpolation, skipSilence, defaultLengthInMS,
 					defaultFadeInMS, replayGain!.Value, clipProtect!.Value, args.OptForever, volume, channelMutes, trackMutes, false);
 				Stream output;
+				int bitrate = -1;
 				if (args.OptOutput == "-")
 					output = Console.OpenStandardOutput();
 				else
 				{
+					if (!int.TryParse(args.OptBitrate, out bitrate) || bitrate is not (16 or 32))
+					{
+						Console.Error.WriteLine("Only bitrates of 16 or 32 are allowed when ouputting to a .wav file.");
+						return 1;
+					}
 					if (args.OptForever)
 					{
 						Console.Error.WriteLine("Playing forever is not allowed when outputting to a .wav file.");
@@ -294,23 +300,39 @@ public static class Program
 					}
 					if (args.OptOutput != "-")
 					{
-						int length = (int)output.Length / 2;
+						bool is32BitFloat = bitrate == 32;
+						int samples = (int)output.Length / 8; // 4 bytes per sample, 2 channels
+						int blockAlign = is32BitFloat ? 8 : 4;
+						int length = samples * blockAlign;
 						using FileStream fs = new(args.OptOutput, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true);
 						fs.Write("RIFF"u8);
 						fs.Write(BitConverter.GetBytes(length + 36));
 						fs.Write("WAVE"u8);
 						fs.Write("fmt "u8);
-						fs.Write(BitConverter.GetBytes(16)); // Chunk body size
-						fs.Write(BitConverter.GetBytes((short)1)); // Format tag (1 = Integer PCM)
+						fs.Write(BitConverter.GetBytes(is32BitFloat ? 18 : 16)); // Chunk body size
+						fs.Write(BitConverter.GetBytes((short)(is32BitFloat ? 3 : 1))); // Format tag (1 = Integer PCM, 3 = Floating Point PCM)
 						fs.Write(BitConverter.GetBytes((short)2)); // Number of channels (2 = Stereo)
 						fs.Write(BitConverter.GetBytes(sampleRate));
-						fs.Write(BitConverter.GetBytes(sampleRate * 4)); // Average bytes per sample
-						fs.Write(BitConverter.GetBytes((short)4)); // Block align (basically bytes per sample / 8 then multiplied by channel count)
-						fs.Write(BitConverter.GetBytes((short)16)); // Bits per sample
+						fs.Write(BitConverter.GetBytes(sampleRate * blockAlign)); // Average bytes per sample
+						fs.Write(BitConverter.GetBytes((short)blockAlign)); // Block align (basically bytes per sample / 8 then multiplied by channel count)
+						fs.Write(BitConverter.GetBytes((short)(blockAlign * 4))); // Bits per sample
+						if (is32BitFloat)
+						{
+							fs.Write(BitConverter.GetBytes((short)0)); // Only for Floating Point PCM, extension size, which is 0
+							// Floating Point PCM requires this extra "fact" chunk
+							fs.Write("fact"u8);
+							fs.Write(BitConverter.GetBytes(4)); // Chunk body size
+							fs.Write(BitConverter.GetBytes(samples)); // Number of sample frames
+						}
 						fs.Write("data"u8);
 						fs.Write(BitConverter.GetBytes(length));
-						foreach (float sample in MemoryMarshal.Cast<byte, float>((output as MemoryStream)!.GetBuffer())[..(length / 2)])
-							fs.Write(BitConverter.GetBytes((short)(sample * short.MaxValue)));
+						var data = MemoryMarshal.Cast<byte, float>((output as MemoryStream)!.GetBuffer())[..(samples * 2)];
+						if (is32BitFloat)
+							foreach (float sample in data)
+								fs.Write(BitConverter.GetBytes(sample));
+						else
+							foreach (float sample in data)
+								fs.Write(BitConverter.GetBytes((short)(sample * short.MaxValue)));
 						Console.WriteLine($"Output saved to {args.OptOutput}");
 					}
 				}
