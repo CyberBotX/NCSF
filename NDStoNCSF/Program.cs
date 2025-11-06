@@ -618,7 +618,8 @@ class Program
 					{
 						AlbumGain albumGain = new();
 						NCSFTimer.NCSF.CalculateReplayGain(ncsfFilename, finalSDAT, sseq, tags, verbosity != 0, albumGain);
-						tags.AddOrReplace(("replaygain_album_gain", $"{albumGain.GetGain():F2} dB"));
+						double gain = albumGain.GetGain();
+						tags.AddOrReplace(("replaygain_album_gain", $"{(gain < 0 ? "" : "+")}{gain:F2} dB"));
 						tags.AddOrReplace(("replaygain_album_peak", $"{albumGain.GetPeak():F9}"));
 					}
 				}
