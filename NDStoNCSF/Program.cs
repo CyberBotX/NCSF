@@ -138,7 +138,6 @@ class Program
 			return false;
 		uint lastPosA = 0;
 		uint lastPosB = 0;
-		Span<byte> dummyVLV = stackalloc byte[5];
 		for (int i = 0; i <= patchCount; ++i)
 		{
 			uint nextPosA, nextPosB;
