@@ -79,6 +79,12 @@ static class Program
 				var tags = NCSF.GetTagsFromPSF(twoSFMA.Memory, 0x24);
 				if (tags.Contains("_lib"))
 				{
+					SDAT sdat = new();
+					sdat.Read(filename, twoSFMA.Bytes[NCSF.FindOffsetsInFile(SDAT.Signature, twoSFMA.Memory).First()..], false);
+					twoSFSDATs[Path.GetFileName(filename)] = sdat;
+				}
+				else
+				{
 					Span<byte> programSection = NCSF.GetProgramSectionFromPSF(twoSFMA.Bytes, 0x24, 8, 4, true);
 					twoSFs[filename] = new()
 					{
@@ -86,12 +92,6 @@ static class Program
 						SSEQ = null,
 						TagList = tags
 					};
-				}
-				else
-				{
-					SDAT sdat = new();
-					sdat.Read(filename, twoSFMA.Bytes[NCSF.FindOffsetsInFile(SDAT.Signature, twoSFMA.Memory).First()..], false);
-					twoSFSDATs[Path.GetFileName(filename)] = sdat;
 				}
 			}
 			catch (Exception e)
