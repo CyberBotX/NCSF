@@ -403,7 +403,7 @@ public abstract class Track
 				return;
 			}
 
-			this.channels.Add(channel.Id);
+			this.channels.Insert(0, channel.Id);
 		}
 
 		if (this.envelopeAttack != 0xFF)
