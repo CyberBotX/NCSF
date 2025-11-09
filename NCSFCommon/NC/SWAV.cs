@@ -61,7 +61,7 @@ public class SWAV : IEquatable<SWAV>, IEqualityOperators<SWAV, SWAV, bool>
 	/// The timer for this waveform/sample.
 	/// </summary>
 	/// <remarks>
-	/// It is derived from the sample rate as: dividing twice the sample rate by the ARM7 clock rate, truncating the value.
+	/// It is derived from the sample rate as: dividing the ARM7 clock rate by twice the sample rate, truncating the value.
 	/// </remarks>
 	public ushort Time { get; set; }
 
