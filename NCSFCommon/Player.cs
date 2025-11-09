@@ -54,8 +54,6 @@ public abstract class Player
 	/// </summary>
 	public short SSEQVolume { get; set; }
 
-	//readonly Channel[] channels = [.. Enumerable.Range(0, Player.ChannelCount).Select(static _ => new Channel())];
-	//abstract Channel[] channels;
 	protected abstract Channel[] channels { get; }
 	public ReadOnlySpan<Channel> Channels => this.channels.AsSpan();
 	public ushort ChannelMask { get; set; }

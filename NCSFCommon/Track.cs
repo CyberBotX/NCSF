@@ -482,7 +482,7 @@ public abstract class Track
 		ModulationDelay = 0xE0,
 
 		Random = 0xA0,
-		PrintVariable = 0xD6,
+		PrintVariable = 0xD6, // Silently ignored
 		If = 0xA2,
 		FromVariable = 0xA1,
 		SetVariable = 0xB0,
