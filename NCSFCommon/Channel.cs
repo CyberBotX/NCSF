@@ -61,8 +61,8 @@ public class NDSSoundRegister
 
 	#region The following are taken from DeSmuME
 
-	public float SamplePosition { get; set; }
-	public float SampleIncrease { get; set; }
+	public double SamplePosition { get; set; }
+	public double SampleIncrease { get; set; }
 
 	#endregion
 
@@ -679,7 +679,7 @@ public abstract class Channel
 				{
 					this.timer = newTimer;
 					// This is for my code and not from the decompilation.
-					this.Register.SampleIncrease = Player.ARM7Clock / (this.Player.SampleRate * 2.0f) / newTimer;
+					this.Register.SampleIncrease = Player.ARM7Clock / (this.Player.SampleRate * 2.0) / newTimer;
 					this.SyncFlags |= ChannelSyncFlag.Timer;
 				}
 				if (pan != this.pan)

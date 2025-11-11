@@ -36,7 +36,7 @@ public class Channel : NCSFCommon.Channel
 		}
 	}
 
-	float LanczosInterpolate(float ratio)
+	float LanczosInterpolate(double ratio)
 	{
 		// The below is really the best way to do this. Not using a lookup table for Lanczos slows it down to about half the speed.
 		// - Sse with a lookup table is about as fast as this without a lookup table and slower still without a lookup table
@@ -44,26 +44,26 @@ public class Channel : NCSFCommon.Channel
 		var data = this.swavWrapper.Slice(-α + 1, 2 * α);
 		float sum = 0;
 		for (int i = -α + 1; i <= α; ++i)
-			sum += data[i + α - 1] * Channel.LanczosLut[(int)float.Floor(float.Abs(ratio - i) * Channel.SincResolution)];
+			sum += data[i + α - 1] * Channel.LanczosLut[(int)double.Floor(double.Abs(ratio - i) * Channel.SincResolution)];
 		return sum;
 	}
 
-	float SimpleSincInterpolate(float ratio)
+	float SimpleSincInterpolate(double ratio)
 	{
 		var data = this.swavWrapper.Slice(-Channel.SincWidth + 1, 2 * Channel.SincWidth);
 		float sum = 0;
 		for (int i = 0; i < Channel.SincWidth * 2; ++i)
 			sum += data[i] *
-				Channel.FlatTopWindowSincLut[(int)float.Floor(float.Abs(ratio - (i - Channel.SincWidth + 1)) * Channel.SincResolution)];
+				Channel.FlatTopWindowSincLut[(int)double.Floor(double.Abs(ratio - (i - Channel.SincWidth + 1)) * Channel.SincResolution)];
 		return sum;
 	}
 
-	float OldSincInterpolate(float ratio)
+	float OldSincInterpolate(double ratio)
 	{
 		var data = this.swavWrapper.Slice(-Channel.SincWidth + 1, 2 * Channel.SincWidth);
 		Span<float> kernel = stackalloc float[Channel.SincWidth * 2];
 		float kernelSum = 0;
-		int shift = (int)float.Floor(ratio * Channel.SincResolution);
+		int shift = (int)double.Floor(ratio * Channel.SincResolution);
 		int step =
 			this.Register.SampleIncrease > 1 ? (int)(Channel.SincResolution / this.Register.SampleIncrease) : Channel.SincResolution;
 		int shiftAdj = shift * step / Channel.SincResolution;
@@ -81,13 +81,13 @@ public class Channel : NCSFCommon.Channel
 		return sum / kernelSum;
 	}
 
-	float SixPointLagrangeInterpolate(float ratio)
+	float SixPointLagrangeInterpolate(double ratio)
 	{
 		// The only minor speedup here is using float's FusedMultiplyAdd, all other methods are slower
 		// - Sse, Avx and Fma intrinsics are slower by about 2.5-4x
 		// - Not using FusedMultiplyAdd is barely slower than using it
 		var data = this.swavWrapper.Slice(-2, 6);
-		ratio -= 0.5f;
+		ratio -= 0.5;
 		// All the data accesses here are +2 more than they should be, since our slice is -2
 		float even1 = data[0] + data[5], odd1 = data[0] - data[5];
 		float even2 = data[1] + data[4], odd2 = data[1] - data[4];
@@ -98,8 +98,8 @@ public class Channel : NCSFCommon.Channel
 		float c3 = odd1 / 48.0f - 13 / 48.0f * odd2 + 17 / 24.0f * odd3;
 		float c4 = even1 / 48.0f - 0.0625f * even2 + even3 / 24.0f;
 		float c5 = odd2 / 24.0f - odd3 / 12.0f - odd1 / 120.0f;
-		return float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(c5, ratio,
-			c4), ratio, c3), ratio, c2), ratio, c1), ratio, c0);
+		return float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(c5,
+			(float)ratio, c4), (float)ratio, c3), (float)ratio, c2), (float)ratio, c1), (float)ratio, c0);
 	}
 
 	static readonly Vector128<float> fourPtLagrange_c0multipliers = Vector128.Create([0f, 1f, 0f, 0f]);
@@ -107,7 +107,7 @@ public class Channel : NCSFCommon.Channel
 	static readonly Vector128<float> fourPtLagrange_c2multipliers = Vector128.Create([0.5f, -1, 0.5f, 0]);
 	static readonly Vector128<float> fourPtLagrange_c3multipliers = Vector128.Create([-1.0f / 6, 0.5f, -0.5f, 1.0f / 6]);
 
-	float FourPointInterpolate(float ratio)
+	float FourPointInterpolate(double ratio)
 	{
 		// Avx does not help here, it is actually a lot slower to do things with Avx.
 		// Fma and Sse are a tad bit faster than doing a fused multiply-add with float.
@@ -120,7 +120,7 @@ public class Channel : NCSFCommon.Channel
 			var c1 = Sse.Multiply(vec, Channel.fourPtLagrange_c1multipliers);
 			var c2 = Sse.Multiply(vec, Channel.fourPtLagrange_c2multipliers);
 			var c3 = Sse.Multiply(vec, Channel.fourPtLagrange_c3multipliers);
-			var ratioVec = Vector128.Create(ratio);
+			var ratioVec = Vector128.Create((float)ratio);
 			return Vector128.Sum(Fma.MultiplyAdd(Fma.MultiplyAdd(Fma.MultiplyAdd(c3, ratioVec, c2), ratioVec, c1), ratioVec, c0));
 		}
 		else if (Sse.IsSupported)
@@ -130,7 +130,7 @@ public class Channel : NCSFCommon.Channel
 			var c1 = Sse.Multiply(vec, Channel.fourPtLagrange_c1multipliers);
 			var c2 = Sse.Multiply(vec, Channel.fourPtLagrange_c2multipliers);
 			var c3 = Sse.Multiply(vec, Channel.fourPtLagrange_c3multipliers);
-			var ratioVec = Vector128.Create(ratio);
+			var ratioVec = Vector128.Create((float)ratio);
 			var c3_tmp = Sse.Multiply(c3, Sse.Multiply(ratioVec, Sse.Multiply(ratioVec, ratioVec)));
 			var c2_tmp = Sse.Multiply(c2, Sse.Multiply(ratioVec, ratioVec));
 			var c1_tmp = Sse.Multiply(c1, ratioVec);
@@ -142,23 +142,24 @@ public class Channel : NCSFCommon.Channel
 			float c1 = data[2] - data[0] / 3.0f - 0.5f * data[1] - data[3] / 6.0f;
 			float c2 = 0.5f * (data[0] + data[2]) - data[1];
 			float c3 = (data[3] - data[0]) / 6.0f + 0.5f * (data[1] - data[2]);
-			return float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(c3, ratio, c2), ratio, c1), ratio, c0);
+			return float.FusedMultiplyAdd(float.FusedMultiplyAdd(float.FusedMultiplyAdd(c3, (float)ratio, c2), (float)ratio, c1),
+				(float)ratio, c0);
 		}
 	}
 
-	float LinearInterpolate(float ratio)
+	float LinearInterpolate(double ratio)
 	{
 		// The below is really the best way to do things, all other methods are barely better or much worse:
 		// - Doing the lerp manually or using Fma intrinsics take roughly the same amount of time
 		// - Using Sse intrinsics is slower
 		// - Using Avx intrinsics is even slower
 		var data = this.swavWrapper.Slice(0, 2);
-		return float.Lerp(data[0], data[1], ratio);
+		return float.Lerp(data[0], data[1], (float)ratio);
 	}
 
 	public float Interpolate()
 	{
-		float ratio = this.Register.SamplePosition;
+		double ratio = this.Register.SamplePosition;
 		ratio -= (int)ratio;
 
 		return (this.Player as Player)!.Interpolation switch
@@ -211,7 +212,7 @@ public class Channel : NCSFCommon.Channel
 
 	public override void IncrementSample()
 	{
-		float samplePosition = this.Register.SamplePosition + this.Register.SampleIncrease;
+		double samplePosition = this.Register.SamplePosition + this.Register.SampleIncrease;
 
 		if (this.Register.Format != 3 && (this.Player as Player)!.Interpolation != Interpolation.None &&
 			this.Register.SamplePosition < 0 && samplePosition >= 0)
