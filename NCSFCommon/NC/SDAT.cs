@@ -374,7 +374,8 @@ public class SDAT : NDSStandardHeader
 		}
 
 		// Get the PLAYER for this SSEQ, if it exists.
-		if (this.INFOSection.PLAYERRecord.Entries.Length != 0)
+		var playerEntries = this.INFOSection.PLAYERRecord.Entries;
+		if (this.INFOSection.PLAYERRecord.Entries.Length != 0 && SEQEntry.Player < playerEntries.Length)
 			this.Player = this.INFOSection.PLAYERRecord.Entries[SEQEntry.Player].Entry;
 		if (this.Player is not null && this.Player.ChannelMask == 0)
 			this.Player.ChannelMask = 0xFFFF;

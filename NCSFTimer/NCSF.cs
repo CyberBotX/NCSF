@@ -65,11 +65,9 @@ public static class NCSF
 			var playerEntries = sdat.INFOSection.PLAYERRecord.Entries;
 			var playerInfo = info.Player < playerEntries.Length ? playerEntries[info.Player].Entry : null;
 			if (playerInfo is not null)
-			{
 				player.ChannelMask = playerInfo.ChannelMask;
-				if (player.ChannelMask == 0)
-					player.ChannelMask = 0xFFFF;
-			}
+			if (player.ChannelMask == 0)
+				player.ChannelMask = 0xFFFF;
 			player.SetUsedTrack(0, true);
 			player.SequenceMain();
 			var oldLength = length;
@@ -130,11 +128,10 @@ public static class NCSF
 			var playerEntries = sdat.INFOSection.PLAYERRecord.Entries;
 			var playerInfo = info.Player < playerEntries.Length ? playerEntries[info.Player].Entry : null;
 			if (playerInfo is not null)
-			{
 				player.ChannelMask = playerInfo.ChannelMask;
-				if (player.ChannelMask == 0)
-					player.ChannelMask = 0xFFFF;
-			}
+			if (player.ChannelMask == 0)
+				player.ChannelMask = 0xFFFF;
+			player.SequenceMain();
 
 			int length = Common.StringToMS(tags["length"].Value) / 1000;
 			float previousCycleRemainder = 0;
