@@ -893,7 +893,8 @@ public class SDAT : NDSStandardHeader
 				FileID = fileID++
 			};
 			newSEQEntry.Bank = (ushort)SBNKMove[SDAT.GetNonDuplicateNumber(newSEQEntry.Bank, duplicateSBNKs)];
-			newSEQEntry.Player = (byte)PLAYERMove[SDAT.GetNonDuplicateNumber(newSEQEntry.Player, duplicatePLAYERs)];
+			if (PLAYERMove.TryGetValue(SDAT.GetNonDuplicateNumber(newSEQEntry.Player, duplicatePLAYERs), out uint player))
+				newSEQEntry.Player = (byte)player;
 			newSEQEntry.SSEQ!.EntryNumber = (int)i;
 			newSSEQs.Add(newSEQEntry.SSEQ);
 			newINFOSection.SEQRecord.SetEntry(i, (Offset, newSEQEntry));
