@@ -656,6 +656,8 @@ class Program
 					var (Offset, Entry) = seqEntries[(int)i];
 					if (Offset != 0 && Entry is not null)
 					{
+						if (Entry.SSEQ!.Filename!.StartsWith("SSEQ"))
+							Entry.SSEQ!.Filename = $"{i:X4} - {Entry.SSEQ!.Filename}";
 						string minincsfFilename = $"{Entry.SSEQ!.Filename}.minincsf";
 
 						var thisTags = tags.Clone();
