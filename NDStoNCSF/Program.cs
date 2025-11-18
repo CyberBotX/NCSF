@@ -615,13 +615,22 @@ class Program
 				{
 					NCSFTimer.NCSF.GetTime(ncsfFilename, finalSDAT, sseq, tags, verbosity != 0, (uint)time, fadeLoop, fadeOneShot);
 					if (args.OptReplayGain)
-					{
-						AlbumGain albumGain = new();
-						NCSFTimer.NCSF.CalculateReplayGain(ncsfFilename, finalSDAT, sseq, tags, verbosity != 0, albumGain);
-						double gain = albumGain.GetGain();
-						tags.AddOrReplace(("replaygain_album_gain", $"{(gain < 0 ? "" : "+")}{gain:F2} dB"));
-						tags.AddOrReplace(("replaygain_album_peak", $"{albumGain.GetPeak():F9}"));
-					}
+						try
+						{
+							AlbumGain albumGain = new();
+							NCSFTimer.NCSF.CalculateReplayGain(ncsfFilename, finalSDAT, sseq, tags, verbosity != 0, albumGain);
+							double gain = albumGain.GetGain();
+							string gainStr = $"{(gain < 0 ? "" : "+")}{gain:F2} dB";
+							string peakStr = $"{albumGain.GetPeak():F9}";
+							tags.AddOrReplace(("replaygain_album_gain", gainStr));
+							tags.AddOrReplace(("replaygain_album_peak", peakStr));
+							if (verbosity != 0)
+								Console.WriteLine($"ReplayGain: {gainStr} / {peakStr} peak");
+						}
+						catch
+						{
+							Console.WriteLine("Unable to calculate ReplayGain.");
+						}
 				}
 
 				NCSFCommon.NCSF.MakeNCSF(Path.Combine(dirName, ncsfFilename), BitConverter.GetBytes(0), memoryOwner.Span, tags);
@@ -697,13 +706,18 @@ class Program
 				string gainStr = "";
 				string peakStr = "";
 				if (args.OptReplayGain)
-				{
-					double gain = albumGain.GetGain();
-					gainStr = $"{(gain < 0 ? "" : "+")}{gain:F2} dB";
-					peakStr = $"{albumGain.GetPeak():F9}";
-					if (verbosity != 0)
-						Console.WriteLine($"Album ReplayGain: {gainStr} / {peakStr} peak");
-				}
+					try
+					{
+						double gain = albumGain.GetGain();
+						gainStr = $"{(gain < 0 ? "" : "+")}{gain:F2} dB";
+						peakStr = $"{albumGain.GetPeak():F9}";
+						if (verbosity != 0)
+							Console.WriteLine($"Album ReplayGain: {gainStr} / {peakStr} peak");
+					}
+					catch
+					{
+						Console.WriteLine("Could not calculate album ReplayGain.");
+					}
 				for (uint i = 0, count = (uint)seqEntries.Length; i < count; ++i)
 				{
 					var (Offset, Entry) = seqEntries[(int)i];
