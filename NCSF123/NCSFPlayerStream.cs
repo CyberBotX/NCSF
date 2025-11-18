@@ -140,7 +140,8 @@ public class NCSFPlayerStream : Stream
 		this.player.Interpolation = this.interpolation;
 		this.player.TrackMutes = this.trackMutes;
 		var sseqToPlay = this.sdat.SSEQs[0];
-		this.player.PrepareSequence(sseqToPlay, 0, NCSFCommon.NCSF.ConvertScale(sseqToPlay.Info!.Volume));
+		this.player.PrepareSequence(sseqToPlay, 0,
+			NCSFCommon.NCSF.ConvertScale(sseqToPlay.Info!.Volume == 0 ? 0x7F : sseqToPlay.Info!.Volume));
 		this.player.SBNK = this.sdat.SBNKs[0];
 		for (int i = 0, j = 0; i < 4; ++i)
 			if (this.player.SBNK.Info!.WaveArchives[i] != 0xFFFF)
